@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%-5p: %c - %m%n</Pattern>
+        </encoder>
+    </appender>
+	
+	<appender name="historyFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${catalina.base}/logs/homepage_log/log-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp />
+				<context />
+				<logLevel />
+				<message />
+				<loggerName />
+				<logstashMarkers />
+			</providers>
+		</encoder>
+	</appender>
+	
+    <root level="off">
+		<appender-ref ref="STDOUT"/>
+	</root>
+	
+	<logger name="historyLogger" level="info">
+		<appender-ref ref="historyFile"/>
+	</logger>
+	
+	<logger name="jdbc.resultsettable" level="off" appender-ref="STDOUT"/>
+	<logger name="jdbc.audit" level="off" appender-ref="STDOUT"/>
+	<logger name="jdbc.resultset" level="off" appender-ref="STDOUT"/>
+	<logger name="jdbc.sqlonly" level="off" appender-ref="STDOUT"/>
+	<logger name="jdbc.connection" level="off" appender-ref="STDOUT"/>
+	<logger name="jdbc.sqltiming" level="off" appender-ref="STDOUT"/>
+</configuration>

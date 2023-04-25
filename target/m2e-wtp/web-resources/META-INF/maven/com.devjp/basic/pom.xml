@@ -215,8 +215,31 @@
 		</dependency>
 		
 	</dependencies>
+	
+	<!-- repository 등록 -->
+	<repositories>
+		<repository>
+			<id>Talan Repository</id>
+			<url>http://nexus.talanlabs.com/content/repositories/releases/</url>
+		</repository>
+		<repository>
+		    <id>spring-repo</id>
+		    <name>Spring Repository</name>
+		    <url>http://repo.spring.io/release/</url>
+		</repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+	
     <build>
         <plugins>
+        	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.2</version>
+			</plugin>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>
