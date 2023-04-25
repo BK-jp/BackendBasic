@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation=
+		"http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+ 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+ 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+ 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<http
+		pattern="/**"
+		auto-config="true"
+		use-expressions="true"
+		request-matcher="ant"
+		>
+		
+		<http-basic/>
+		
+		<headers>
+			<frame-options policy="SAMEORIGIN"/>
+		</headers>
+		
+		<intercept-url pattern="/resources/**" access="permitAll"/>
+		<intercept-url pattern="/" access="isAnonymous()"/>
+		<intercept-url pattern="/mypage/**" access="hasRole('STUDENT')"/>
+		<intercept-url pattern="/contents/**" access="isAuthenticated()"/>
+		<intercept-url pattern="/admin/branch/**" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/admin/director/registrate" access="hasRole('BRANCH')"/>
+		<intercept-url pattern="/admin/director/manage" access="hasAnyRole('ADMIN', 'BRANCH')"/>
+		<intercept-url pattern="/admin/student/registrate" access="hasRole('DIRECTOR')"/>
+		<intercept-url pattern="/admin/delivery/**" access="hasAnyRole('ADMIN', 'BRANCH')"/>
+		<intercept-url pattern="/admin/history/**" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN', 'BRANCH', 'DIRECTOR')"/>
+		
+		<form-login login-page="/"
+					username-parameter="id"
+					password-parameter="password"
+					login-processing-url="/auth/login"
+					authentication-failure-handler-ref="loginFailureHandler"
+					authentication-success-handler-ref="loginSuccessHandler"
+		/>
+		
+		<logout logout-url="/auth/logout"
+				invalidate-session="false"
+				delete-cookies="remember-me, JSESSION_ID"
+				success-handler-ref="logoutSuccessHandler"
+		/>
+		
+		<access-denied-handler ref="accessDeniedHandler"/>
+		
+		<remember-me services-ref="rememberMeService" key="testCustom" authentication-success-handler-ref="loginSuccessHandler"/>
+		
+		<csrf disabled="true"/>
+	</http>
+	
+	<jdbc-user-service data-source-ref="dataSource" id="userService"/>
+	
+	<!-- provider -->
+	<authentication-manager>
+		<authentication-provider ref="userAuthProvider"/>
+	</authentication-manager>
+	
+	<context:component-scan base-package="com.devjp.basic" />
+	
+	<beans:bean id="userService" class="com.devjp.basic.serviceImpl.UserServiceImpl" />
+	<beans:bean id="userAuthProvider" class="com.devjp.basic.security.CustomAuthenticationProvider"/>
+	<beans:bean id="loginFailureHandler" class="com.devjp.basic.security.LoginFailureHandler"/>
+	<beans:bean id="loginSuccessHandler" class="com.devjp.basic.security.LoginSuccessHandler">
+		<beans:property name="loginID" value="id"/>
+		<beans:property name="defaultUrl" value="/"/>
+	</beans:bean>
+	<beans:bean id="logoutSuccessHandler" class="com.devjp.basic.security.CustomLogoutSuccessHandler">
+		<beans:property name="loginID" value="id"/>
+		<beans:property name="defaultUrl" value="/"/>
+	</beans:bean>
+	<beans:bean id="jdbcTokenRepositoryImpl" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+		<beans:property name="dataSource" ref="dataSource"/>
+	</beans:bean>
+	<beans:bean id="rememberMeService" class="com.devjp.basic.security.CustomRememberMe">
+		<beans:constructor-arg name="key" value="basic"/>
+		<beans:constructor-arg name="userDetailsService" ref="userService"/>
+		<beans:property name="cookieName" value="remember-me" />
+		<beans:property name="parameter" value="remember_me" />
+		<beans:property name="tokenValiditySeconds" value="60000" />
+	</beans:bean>
+	<beans:bean id="accessDeniedHandler" class="com.devjp.basic.security.CustomAccessDeniedHandler"/>
+</beans:beans>
