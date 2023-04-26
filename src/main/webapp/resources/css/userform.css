@@ -1,0 +1,7 @@
+@charset "UTF-8";
+.form .input-wrap{position: relative; margin-bottom: 1em; display: flex; flex-direction: row; align-items: center; font-size: 16px; padding-top: 5px;}
+.form .input-wrap > .title{position: absolute; padding: 0 0.5em; left: 16px; top: auto; font-size: inherit; transition: .3s all ease;}
+.form .input-wrap > input:focus + .title{font-size: 12px; top: -5px; background-color: white; color: var(--p1-blue);}
+.form .input-wrap > input:valid + .title{font-size: 12px; top: -5px; background-color: white;}
+
+#login-form{width: 100%; max-width: 500px; margin: 0 auto;}

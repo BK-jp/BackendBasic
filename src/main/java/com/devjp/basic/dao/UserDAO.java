@@ -1,5 +1,7 @@
 package com.devjp.basic.dao;
 
-public interface UserDAO {
+import com.devjp.basic.vo.UserVO;
 
+public interface UserDAO {
+	UserVO selectOneByEmail(String email);
 }

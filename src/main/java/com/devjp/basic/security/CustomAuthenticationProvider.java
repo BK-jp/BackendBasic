@@ -44,7 +44,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             append("logUser", "GUEST")
             .and(append("userAgent", request.getHeader("User-Agent")))
             .and(append("uri", request.getRequestURI()))
-            .and(append("ip", GetRemoteIP.getIP(request))),
+            .and(append("ip", GetRemoteIP.getIP(request)))
+            .and(append("data", "email : "+username+", password : "+passwordEncoder.encode(password))),
             "로그인 시도 : "+username
         );
 		

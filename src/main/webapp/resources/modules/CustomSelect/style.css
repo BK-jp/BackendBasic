@@ -1,0 +1,22 @@
+@charset "UTF-8";
+.CustomSelect{position: relative; border: 1px solid #F1F1F1; display: inline-flex; flex-direction: row; align-items: center; padding: 0.5em 1em; border-radius: 2em; min-width: calc(2em + 1em + 10px * 2);}
+.CustomSelect > .selected{width: calc(100% - 10px - 1em);}
+.CustomSelect > .arrow{width: 1em; height: 1em; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center center; -webkit-mask-size: contain; mask-repeat: no-repeat; mask-position: center center; mask-size: contain; background-repeat: no-repeat; background-size: contain; background-position: center center; -webkit-mask-box-image: url('./arrow.png'); background-color: #F1F1F1; margin-left: 10px;}
+.CustomSelect > .option-wrap{position: absolute; display: none; left: 0; top: 100%; width: 100%; min-width: max-content; z-index: 9999;}
+.CustomSelect > .option-wrap::before{content: ''; position: fixed; width: 100vw; height: 100vh; left:0; top: 0; z-index: -1;}
+.CustomSelect > .option-wrap > ul{box-shadow: 0 0 3px 3px rgba(0,0,0,0.1); border-radius: 1em; background-color: white; padding: 1em 0; max-height: 200px; overflow: auto;}
+.CustomSelect > .option-wrap > ul > li > label{display: flex; flex-direction: row; align-items: center; padding: 0.5em 1em;}
+.CustomSelect > .option-wrap > ul > li > label > .option-text{width: 100%;}
+.CustomSelect > .option-wrap > ul > li > label > input[type="radio"]{display: none;}
+.CustomSelect > .option-wrap > ul > li > label:hover{background-color: #F1F1F1;}
+.CustomSelect > select{display: none;}
+
+.CustomSelect.gn2 > .arrow{background-color: #66C330;}
+
+.CustomSelect.include-icon > .icon{width: 2em; height: 2em; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center center; -webkit-mask-size: contain; mask-repeat: no-repeat; mask-position: center center; mask-size: contain; background-repeat: no-repeat; background-size: contain; background-position: center center; margin-right: 10px; border: 1px solid rgba(0,0,0,0); border-radius: 50%;}
+.CustomSelect.include-icon > .selected{width: calc(100% - 1em - 2em - 10px * 2);}
+.CustomSelect.include-icon > .option-wrap > ul > li > label > .option-text{width: calc(100% - 2em - 5px);}
+.CustomSelect.include-icon > .option-wrap > ul > li > label > .icon{width: 2em; height: 2em; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center center; -webkit-mask-size: contain; mask-repeat: no-repeat; mask-position: center center; mask-size: contain; background-repeat: no-repeat; background-size: contain; background-position: center center; margin-right: 5px; border-radius: 50%;}
+
+.CustomSelect.active > .arrow{transform: rotate(180deg);}
+.CustomSelect.active > .option-wrap{display: block;}

@@ -23,20 +23,8 @@
 			<frame-options policy="SAMEORIGIN"/>
 		</headers>
 		
-		<intercept-url pattern="/resources/**" access="permitAll"/>
-		<intercept-url pattern="/" access="isAnonymous()"/>
-		<intercept-url pattern="/mypage/**" access="hasRole('STUDENT')"/>
-		<intercept-url pattern="/contents/**" access="isAuthenticated()"/>
-		<intercept-url pattern="/admin/branch/**" access="hasRole('ADMIN')"/>
-		<intercept-url pattern="/admin/director/registrate" access="hasRole('BRANCH')"/>
-		<intercept-url pattern="/admin/director/manage" access="hasAnyRole('ADMIN', 'BRANCH')"/>
-		<intercept-url pattern="/admin/student/registrate" access="hasRole('DIRECTOR')"/>
-		<intercept-url pattern="/admin/delivery/**" access="hasAnyRole('ADMIN', 'BRANCH')"/>
-		<intercept-url pattern="/admin/history/**" access="hasRole('ADMIN')"/>
-		<intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN', 'BRANCH', 'DIRECTOR')"/>
-		
 		<form-login login-page="/"
-					username-parameter="id"
+					username-parameter="email"
 					password-parameter="password"
 					login-processing-url="/auth/login"
 					authentication-failure-handler-ref="loginFailureHandler"
