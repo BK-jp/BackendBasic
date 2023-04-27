@@ -15,9 +15,13 @@
 		auto-config="true"
 		use-expressions="true"
 		request-matcher="ant"
+		create-session="ifRequired"
 		>
 		
 		<http-basic/>
+		
+		<intercept-url pattern="/" access="isAnonymous()"/>
+		<intercept-url pattern="/success" access="isAuthenticated()"/>
 		
 		<headers>
 			<frame-options policy="SAMEORIGIN"/>
@@ -42,6 +46,7 @@
 		<remember-me services-ref="rememberMeService" key="testCustom" authentication-success-handler-ref="loginSuccessHandler"/>
 		
 		<csrf disabled="true"/>
+		
 	</http>
 	
 	<jdbc-user-service data-source-ref="dataSource" id="userService"/>
@@ -56,17 +61,8 @@
 	<beans:bean id="userService" class="com.devjp.basic.serviceImpl.UserServiceImpl" />
 	<beans:bean id="userAuthProvider" class="com.devjp.basic.security.CustomAuthenticationProvider"/>
 	<beans:bean id="loginFailureHandler" class="com.devjp.basic.security.LoginFailureHandler"/>
-	<beans:bean id="loginSuccessHandler" class="com.devjp.basic.security.LoginSuccessHandler">
-		<beans:property name="loginID" value="id"/>
-		<beans:property name="defaultUrl" value="/"/>
-	</beans:bean>
-	<beans:bean id="logoutSuccessHandler" class="com.devjp.basic.security.CustomLogoutSuccessHandler">
-		<beans:property name="loginID" value="id"/>
-		<beans:property name="defaultUrl" value="/"/>
-	</beans:bean>
-	<beans:bean id="jdbcTokenRepositoryImpl" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
-		<beans:property name="dataSource" ref="dataSource"/>
-	</beans:bean>
+	<beans:bean id="loginSuccessHandler" class="com.devjp.basic.security.LoginSuccessHandler"/>
+	<beans:bean id="logoutSuccessHandler" class="com.devjp.basic.security.CustomLogoutSuccessHandler"/>
 	<beans:bean id="rememberMeService" class="com.devjp.basic.security.CustomRememberMe">
 		<beans:constructor-arg name="key" value="basic"/>
 		<beans:constructor-arg name="userDetailsService" ref="userService"/>

@@ -35,25 +35,26 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 		String errormsg = null;
 		
 		if(exception instanceof UsernameNotFoundException) {
-			errormsg = "아이디 혹은 비밀번호가 일치하지 않습니다.";
+			errormsg = "ID/Password is Mismatch.";
 		}else if(exception instanceof BadCredentialsException) {
-			errormsg = "아이디 혹은 비밀번호가 일치하지 않습니다.";
+			errormsg = "ID/Password is Mismatch.";
 		}else if(exception instanceof InternalAuthenticationServiceException) {
-			errormsg = "권한 정보를 읽울 수 없습니다.";
+			errormsg = "Cannot read user authentication.";
 		}else if(exception instanceof DisabledException) {
-			errormsg = "비활성화된 계정입니다.";
+			errormsg = "Account is Disabled.";
 		}else if(exception instanceof CredentialsExpiredException) {
-			errormsg = "비밀번호가 만료되었습니다.";
+			errormsg = "Password is Expired.";
 		}else if(exception instanceof AccountExpiredException) {
-			errormsg = "사용할 수 없는 계정입니다.";
+			errormsg = "Account is Expired.";
 		}
 		
 		historyLogger.info(
             append("logUser", "GUEST")
             .and(append("userAgent", request.getHeader("User-Agent")))
             .and(append("uri", request.getRequestURI()))
-            .and(append("ip", GetRemoteIP.getIP(request))),
-            "로그인 실패 : "+errormsg
+            .and(append("ip", GetRemoteIP.getIP(request)))
+            .and(append("data", exception.getMessage())),
+            "Login Failure : "+errormsg
         );
 		
 		String targetUrl = "";

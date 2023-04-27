@@ -7,8 +7,8 @@
 #CustomPopup > .popup-inner > .popup-text-box > input{width: 100%; font-size: 1rem; border: none; background-color: #F1F1F1; padding: 0.5em; outline: none;}
 #CustomPopup > .popup-inner > .popup-button-wrap{padding: 5px 0; display: flex; flex-direction: row; align-items: center; justify-content: space-between;}
 #CustomPopup > .popup-inner > .popup-button-wrap > button{width: calc((100% - 1em) / 2); border: 1px solid rgba(0,0,0,0); border-radius: 2em; padding: 0.5em; background-color: rgba(0,0,0,0);}
-#CustomPopup > .popup-inner > .popup-button-wrap > button.cancel{border: 1px solid #66C330; color: #66C330;}
-#CustomPopup > .popup-inner > .popup-button-wrap > button.confirm{border: 1px solid #66C330; color: white; background-color: #66C330;}
+#CustomPopup > .popup-inner > .popup-button-wrap > button.cancel{border: 1px solid #4281A4; color: #4281A4;}
+#CustomPopup > .popup-inner > .popup-button-wrap > button.confirm{border: 1px solid #4281A4; color: white; background-color: #4281A4;}
 
 #CustomPopup.alert > .popup-inner > .popup-message-box{min-height: 6em;}
 #CustomPopup.alert > .popup-inner > .popup-text-box{display: none;}

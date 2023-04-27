@@ -12,11 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import com.devjp.basic.util.AjaxChecker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler{
-	private String loginID;
-	private String defaultUrl;
 	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -26,35 +25,26 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler{
 		}
 		
 		if(!request.getRequestURI().equals("/auth/logout")) {
-			response.sendRedirect(defaultUrl);
+			response.sendRedirect("/");
 		}
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("code", 0);
-		data.put("url", defaultUrl);
-		
-		response.setHeader("Content-Type", "application/json");
-		
-		String jsonString = mapper.writeValueAsString(data);
-		
-		OutputStream out = response.getOutputStream();
-		
-		out.write(jsonString.getBytes());
-		out.close();
-	}
-	
-	public String getLoginID() {
-		return loginID;
-	}
-	public void setLoginID(String loginID) {
-		this.loginID = loginID;
-	}
-	public String getDefaultUrl() {
-		return defaultUrl;
-	}
-	public void setDefaultUrl(String defaultUrl) {
-		this.defaultUrl = defaultUrl;
+		if(AjaxChecker.check(request)) {
+			ObjectMapper mapper = new ObjectMapper();
+			
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("code", 0);
+			data.put("url", "/");
+			
+			response.setHeader("Content-Type", "application/json");
+			
+			String jsonString = mapper.writeValueAsString(data);
+			
+			OutputStream out = response.getOutputStream();
+			
+			out.write(jsonString.getBytes());
+			out.close();
+		}else {
+			response.sendRedirect("/");
+		}
 	}
 }

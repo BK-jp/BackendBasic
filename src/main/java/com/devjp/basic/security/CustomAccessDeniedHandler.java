@@ -69,7 +69,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler{
 	                request.getRequestDispatcher("/WEB-INF/views/error/accessDenied.jsp").forward(request, response);
 	            }else {
 	                if(user != null) {
-	                    targetUrl = "/contents";
+	                    targetUrl = "/success";
 	                }else {
 	                    targetUrl = "/";
 	                }

@@ -30,9 +30,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     
     private static final Logger historyLogger = (Logger) LoggerFactory.getLogger("historyLogger");
 	
-	private String loginID;
-	private String defaultUrl;
-	
 	@Autowired
 	private UserService userService;
 	
@@ -46,7 +43,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		if(saveRequest != null) {
 			targetUrl = saveRequest.getRedirectUrl();
 		}else {
-			targetUrl = defaultUrl;
+			targetUrl = "/success";
 		}
 		
 		UserVO user = (UserVO) userService.loadUserByUsername(authentication.getName());
@@ -61,8 +58,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             append("logUser", "GUEST")
             .and(append("userAgent", request.getHeader("User-Agent")))
             .and(append("uri", request.getRequestURI()))
-            .and(append("ip", GetRemoteIP.getIP(request))),
-            "로그인 성공"
+            .and(append("ip", GetRemoteIP.getIP(request)))
+            .and(append("data", authentication.getPrincipal())),
+            "Login Success"
         );
 		
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -79,21 +77,5 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		out.write(jsonString.getBytes());
 		out.close();
-	}
-
-	public String getLoginID() {
-		return loginID;
-	}
-
-	public void setLoginID(String loginID) {
-		this.loginID = loginID;
-	}
-
-	public String getDefaultUrl() {
-		return defaultUrl;
-	}
-
-	public void setDefaultUrl(String defaultUrl) {
-		this.defaultUrl = defaultUrl;
 	}
 }
